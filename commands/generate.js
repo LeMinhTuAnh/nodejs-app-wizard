@@ -34,7 +34,6 @@ const initFiles = (projectName, answers) => {
     '.editorconfig',
     '.eslintignore',
     '.eslintrc.json',
-    '.gitignore',
     '.prettierrc',
     'jest.config.js',
   ];
@@ -45,6 +44,11 @@ const initFiles = (projectName, answers) => {
       projectName + '/' + file
     );
   });
+
+  cp.sync(
+    path.resolve(__dirname, '../resources/.gitignore.sample'),
+    projectName + '/.gitignore'
+  );
 
   // copy .vscode/*.*
   if (answers.supportVscode) {
