@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "preferGlobal": true,
   "bin": {
-    "wizard": "./bin/index.js"
+    "nodejs-app-wizard": "./bin/index.js"
   },
   "description": "",
   "main": "./bin/index.js",
