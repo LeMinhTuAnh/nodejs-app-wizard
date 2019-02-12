@@ -1,14 +1,14 @@
 const http = require('http');
 const config = require('config');
 // $__router
-const logger = require('./config/logger');
+const logger = require('./core/logger');
 // $__koaConf
 // $__mongoConf
-const mongoConf = require('./config/mongo.config');
+const mongoConf = require('./core/mongo.config');
 // $__rabbitConf
-const rabbitConf = require('./config/rabbit.config');
+const rabbitConf = require('./core/rabbit.config');
 // $__messageBroker
-const messageBroker = require('./config/messageBroker');
+const messageBroker = require('./core/messageBroker');
 
 // $__startApiServerDeclare
 
