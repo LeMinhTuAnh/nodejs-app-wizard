@@ -139,7 +139,9 @@ const initFiles = (projectName, answers) => {
   }
 };
 
-const initNpm = () => {};
+const initNpm = (projectName, answers) => {
+  cmd.run(`cd ${projectName} && npm install`);
+};
 
 const questions = [
   {
@@ -185,6 +187,8 @@ module.exports = projectName => {
       initGit(projectName, answers);
 
       initFiles(projectName, answers);
+
+      initNpm(projectName, answers);
 
       colors.green.bold(`Application ${projectName} is created !!!`);
     })

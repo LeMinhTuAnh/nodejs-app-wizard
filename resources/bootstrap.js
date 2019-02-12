@@ -13,16 +13,14 @@ const start = () =>
       if (err) return reject(err);
       resolve();
     });
-  }); 
+  });
 
-const connectMongoPromise = mongoConf.connect(
-  config.get('mongoUrl'),
-  { logger }
-);
-const connectRabbitPromise = rabbitConf.connect(
-  config.get('rabbitUrl'),
-  { logger }
-);
+const connectMongoPromise = mongoConf.connect(config.get('mongoUrl'), {
+  logger,
+});
+const connectRabbitPromise = rabbitConf.connect(config.get('rabbitUrl'), {
+  logger,
+});
 
 Promise.all([connectMongoPromise, connectRabbitPromise])
   .then(() =>

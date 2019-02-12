@@ -28,12 +28,13 @@ const connect = (mongoUrl, { logger = console }) =>
     );
   });
 
-const close = () => new Promise((resolve, reject) => {
-  state.db.close((err, result) => {
-    state.db = null;
-    return resolve();
-  })
-});
+const close = () =>
+  new Promise((resolve, reject) => {
+    state.db.close((err, result) => {
+      state.db = null;
+      return resolve();
+    });
+  });
 
 const db = () => state.db;
 

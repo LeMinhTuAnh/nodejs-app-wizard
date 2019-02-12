@@ -3,6 +3,7 @@ const bodyParser = require('koa-body');
 const koaLogger = require('koa-logger');
 const koaHelmet = require('koa-helmet');
 const createError = require('http-errors');
+const cors = require('@koa/cors');
 const config = require('config');
 
 module.exports = (router, logger = console) => {
@@ -15,6 +16,8 @@ module.exports = (router, logger = console) => {
     const ms = Date.now() - start;
     ctx.set('X-Response-Time', ms);
   });
+
+  app.use(cors());
 
   app.use(
     bodyParser({
