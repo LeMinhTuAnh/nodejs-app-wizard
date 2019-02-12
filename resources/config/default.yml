@@ -1,0 +1,19 @@
+env: "development"
+port: 8000
+host: localhost
+mongoUrl: "mongodb://localhost:27017/example"
+rabbitUrl: "amqp://rabbit:rabbit@localhost:5672/example"
+amqpDefinitions:
+  exchanges:
+    - name: example-ex
+      type: topic
+      options:
+        durable: true
+  queues:
+    - name: example-q
+      options: {}
+      bindingRules: 
+        - exchange: example-ex
+          bindingKeys:
+            - example.key.1.*
+            - example.key.2.*

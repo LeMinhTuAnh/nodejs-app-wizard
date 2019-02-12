@@ -1,0 +1,16 @@
+{
+	// See http://go.microsoft.com/fwlink/?LinkId=827846
+	// for the documentation about the extensions.json format
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"felipecaputo.git-project-manager",
+		"christian-kohler.npm-intellisense",
+		"christian-kohler.path-intellisense",
+		"waderyan.gitblame",
+		"esbenp.prettier-vscode",
+		"wayou.vscode-todo-highlight",
+		"wix.vscode-import-cost",
+		"redhat.vscode-yaml",
+		"eg2.vscode-npm-script"
+	]
+} 
