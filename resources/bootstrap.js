@@ -1,36 +1,40 @@
 const http = require('http');
 const config = require('config');
-const router = require('./app/router');
+// $__router
 const logger = require('./config/logger');
-const app = require('./config/koa.config')(router, logger);
+// $__koaConf
+// $__mongoConf
 const mongoConf = require('./config/mongo.config');
+// $__rabbitConf
 const rabbitConf = require('./config/rabbit.config');
+// $__messageBroker
 const messageBroker = require('./config/messageBroker');
 
-const start = () =>
-  new Promise((resolve, reject) => {
-    http.createServer(app.callback()).listen(config.get('port'), err => {
-      if (err) return reject(err);
-      resolve();
+// $__startApiServerDeclare
+
+const start = async () => {
+  try {
+      // $__connectMongoDB
+    await mongoConf.connect(config.get('mongoUrl'), {
+      logger,
     });
-  });
+    
+    // $__connectRabbitMQ
+    await rabbitConf.connect(config.get('rabbitUrl'), {
+      logger,
+    });
+    
+    // $__startMessageBroker
+    await startMessageBroker(rabbitConf.connection(), config.get('amqpDefinitions'));
 
-const connectMongoPromise = mongoConf.connect(config.get('mongoUrl'), {
-  logger,
-});
-const connectRabbitPromise = rabbitConf.connect(config.get('rabbitUrl'), {
-  logger,
-});
+    // $__startApiServerExecute
 
-Promise.all([connectMongoPromise, connectRabbitPromise])
-  .then(() =>
-    messageBroker.init(rabbitConf.connection(), config.get('amqpDefinitions'))
-  )
-  .then(() => start())
-  .then(() => {
-    logger.info(`Server is running on port ${config.get('port')}`);
-  })
-  .catch(logger.error);
+    logger.info(`App is listening on port ${config.get('port')}`)
+  } catch (error) {
+    logger.error(error)
+    process.exit(1)
+  }
+}
 
 const shutdown = signal => async err => {
   logger.log(`${signal}...`);

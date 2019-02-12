@@ -91,12 +91,46 @@ const initFiles = (projectName, answers) => {
     `${projectName}/src/bootstrap.js`
   );
 
-  // copy core/koa.js
+  // copy core/koa.js and setup api using Koajs
   if (answers.addKoa) {
     cp.sync(
       path.resolve(__dirname, '../resources/core/koa.config.js'),
       `${projectName}/src/core/koa.core.js`
     );
+    cp.sync(
+      path.resolve(__dirname, '../resources/app/handler.js'),
+      `${projectName}/src/app/handler.js`
+    );
+    cp.sync(
+      path.resolve(__dirname, '../resources/app/router.js'),
+      `${projectName}/src/app/router.js`
+    );
+    replace.sync({
+      files: path.resolve(projectName, 'src/bootstrap.js'),
+      from: '$__router',
+      to: `const router = require('./app/router');`,
+    });
+    replace.sync({
+      files: path.resolve(projectName, 'src/bootstrap.js'),
+      from: '$__koaConf',
+      to: `const app = require('./config/koa.config')(router, logger);');`,
+    });
+    replace.sync({
+      files: path.resolve(projectName, 'src/bootstrap.js'),
+      from: '$__startApiServerDeclare',
+      to: `const startApiServer = () =>
+      new Promise((resolve, reject) => {
+        http.createServer(app.callback()).listen(config.get('port'), err => {
+          if (err) return reject(err);
+          resolve();
+        });
+      });`,
+    });
+    replace.sync({
+      files: path.resolve(projectName, 'src/bootstrap.js'),
+      from: '$__startApiServerExecute',
+      to: `await startApiServer();`,
+    });
   }
 
   // copy core/messageBroker.js
