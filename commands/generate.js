@@ -224,4 +224,3 @@ module.exports = projectName => {
     })
     .catch(e => console.log(e));
 };
-j;
