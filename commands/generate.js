@@ -51,24 +51,22 @@ const initFiles = (projectName, answers) => {
   );
 
   // copy .vscode/*.*
-  if (answers.supportVscode) {
-    cp.sync(
-      path.resolve(__dirname, '../resources/.vscode/extensions.json'),
-      projectName + '/.vscode/extensions.json'
-    );
-    cp.sync(
-      path.resolve(__dirname, '../resources/.vscode/launch.json'),
-      projectName + '/.vscode/launch.json'
-    );
-    cp.sync(
-      path.resolve(__dirname, '../resources/.vscode/settings.json'),
-      projectName + '/.vscode/settings.json'
-    );
-    cp.sync(
-      path.resolve(__dirname, '../resources/.vscode/tasks.json'),
-      projectName + '/.vscode/tasks.json'
-    );
-  }
+  cp.sync(
+    path.resolve(__dirname, '../resources/.vscode/extensions.json'),
+    projectName + '/.vscode/extensions.json'
+  );
+  cp.sync(
+    path.resolve(__dirname, '../resources/.vscode/launch.json'),
+    projectName + '/.vscode/launch.json'
+  );
+  cp.sync(
+    path.resolve(__dirname, '../resources/.vscode/settings.json'),
+    projectName + '/.vscode/settings.json'
+  );
+  cp.sync(
+    path.resolve(__dirname, '../resources/.vscode/tasks.json'),
+    projectName + '/.vscode/tasks.json'
+  );
 
   // copy config files
   const configFiles = [
@@ -184,12 +182,6 @@ const initNpm = (projectName, answers) => {
 const questions = [
   {
     type: 'confirm',
-    name: 'supportVscode',
-    default: true,
-    message: 'Add support for Visual Studio Code',
-  },
-  {
-    type: 'confirm',
     name: 'addKoa',
     default: true,
     message: 'Add Koajs',
@@ -216,7 +208,7 @@ module.exports = projectName => {
   console.log(
     colors.grey(`\n Generate Project ${colors.bgCyan.white(projectName)}`)
   );
-
+  988;
   inquirer
     .prompt(questions)
     .then(answers => {
@@ -232,3 +224,4 @@ module.exports = projectName => {
     })
     .catch(e => console.log(e));
 };
+j;

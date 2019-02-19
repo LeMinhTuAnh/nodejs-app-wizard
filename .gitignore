@@ -10,3 +10,4 @@ exceptions.log
 .env
 *.*~
 package-lock.json
+.vs/

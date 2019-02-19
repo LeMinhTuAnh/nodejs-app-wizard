@@ -7,6 +7,7 @@ const colors = require('colors');
 const { prompt } = require('inquirer');
 
 const generate = require('../commands/generate');
+const add = require('../commands/add');
 
 program.version('0.0.1').description('Nodejs App Wizard');
 
@@ -24,6 +25,43 @@ program
       }
       generate(projectName);
     });
+  });
+
+
+program
+  .command('add <type>')
+  .alias('a')
+  .description('Add component to app')
+  .action(type => {
+    console.log(type);
+    if (!type) {
+      prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: 'Select component type',
+          choices: [
+            {
+              name: 'Schema',
+              value: 'schema',
+            },
+          ],
+        },
+      ])
+        .then(answers => {
+          switch (answers.type) {
+            case 'schema': {
+              add.addSchema();
+              break;
+            }
+
+            default: {
+              process.exit(0);
+            }
+          }
+        })
+        .catch(e => console.error(e));
+    }
   });
 
 program.parse(process.argv);
