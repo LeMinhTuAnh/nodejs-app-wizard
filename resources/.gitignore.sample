@@ -10,3 +10,5 @@ exceptions.log
 .env
 *.*~
 package-lock.json
+config/development.yml
+config/production.yml
