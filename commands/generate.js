@@ -90,54 +90,33 @@ const initFiles = (projectName, answers) => {
   );
 
   // copy core/koa.js and setup api using Koajs
-  if (answers.addKoa) {
-    cp.sync(
-      path.resolve(__dirname, '../resources/core/koa.config.js'),
-      `${projectName}/src/core/koa.core.js`
-    );
-    cp.sync(
-      path.resolve(__dirname, '../resources/app/handler.js'),
-      `${projectName}/src/app/handler.js`
-    );
-    cp.sync(
-      path.resolve(__dirname, '../resources/app/router.js'),
-      `${projectName}/src/app/router.js`
-    );
-    replace.sync({
-      files: path.resolve(projectName, 'src/bootstrap.js'),
-      from: '$__router',
-      to: `const router = require('./app/router');`,
-    });
-    replace.sync({
-      files: path.resolve(projectName, 'src/bootstrap.js'),
-      from: '$__koaConf',
-      to: `const app = require('./config/koa.config')(router, logger);');`,
-    });
-    replace.sync({
-      files: path.resolve(projectName, 'src/bootstrap.js'),
-      from: '$__startApiServerDeclare',
-      to: `const startApiServer = () =>
-      new Promise((resolve, reject) => {
-        http.createServer(app.callback()).listen(config.get('port'), err => {
-          if (err) return reject(err);
-          resolve();
-        });
-      });`,
-    });
-    replace.sync({
-      files: path.resolve(projectName, 'src/bootstrap.js'),
-      from: '$__startApiServerExecute',
-      to: `await startApiServer();`,
-    });
-  }
+  cp.sync(
+    path.resolve(__dirname, '../resources/core/koa.config.js'),
+    `${projectName}/src/core/koa.core.js`
+  );
+  cp.sync(
+    path.resolve(__dirname, '../resources/app/handler.js'),
+    `${projectName}/src/app/handler.js`
+  );
+  cp.sync(
+    path.resolve(__dirname, '../resources/app/router.js'),
+    `${projectName}/src/app/router.js`
+  );
 
-  // copy core/messageBroker.js
-  if (answers.addMessageBroker) {
-    cp.sync(
-      path.resolve(__dirname, '../resources/core/messageBroker.js'),
-      `${projectName}/src/core/messageBroker.js`
-    );
-  }
+  cp.sync(
+    path.resolve(__dirname, '../resources/core/messageBroker.js'),
+    `${projectName}/src/core/messageBroker.js`
+  );
+
+  cp.sync(
+    path.resolve(__dirname, '../resources/core/rabbit.config.js'),
+    `${projectName}/src/core/rabbit.core.js`
+  );
+
+  cp.sync(
+    path.resolve(__dirname, '../resources/core/mongo.config.js'),
+    `${projectName}/src/core/mongo.core.js`
+  );
 
   // init logger
   cp.sync(
@@ -181,12 +160,6 @@ const initNpm = (projectName, answers) => {
 
 const questions = [
   {
-    type: 'confirm',
-    name: 'addKoa',
-    default: true,
-    message: 'Add Koajs',
-  },
-  {
     type: 'list',
     name: 'logger',
     defalt: 'console',
@@ -218,7 +191,7 @@ module.exports = projectName => {
 
       initFiles(projectName, answers);
 
-      initNpm(projectName, answers);
+      // initNpm(projectName, answers);
 
       colors.green.bold(`Application ${projectName} is created !!!`);
     })
