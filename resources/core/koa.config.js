@@ -82,8 +82,8 @@ module.exports = (router, logger = console) => {
   });
 
   app.on('error', err => {
-    if (err.status >= 500) logger.error(err);
-    else logger.warn(err);
+    if (err.status >= 500) logger.error(err.stack);
+    else logger.warn(err.stack);
   });
 
   return app;

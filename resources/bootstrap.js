@@ -26,7 +26,7 @@ const start = async () => {
     
     await startMessageBroker(rabbitConf.connection(), config.get('amqpDefinitions'));
 
-     await startApiServer();
+    await startApiServer();
     
     logger.info(`App is listening on port ${config.get('port')}`)
   } catch (error) {
