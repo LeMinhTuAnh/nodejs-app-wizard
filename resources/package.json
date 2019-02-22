@@ -23,7 +23,9 @@
   },
   "lint-staged": {
     "ignore": [
-      "package.json"
+      "package.json",
+      ".vscode/*.*",
+      ".eslintrc.json"
     ],
     "linters": {
       "*.{js,jsx}": [
@@ -51,6 +53,7 @@
     "prettier": "^1.15.2"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "ajv": "^6.5.5",
     "amqplib": "^0.5.3",
     "axios": "^0.18.0",
