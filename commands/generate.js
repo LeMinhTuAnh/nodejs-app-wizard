@@ -123,59 +123,18 @@ const initFiles = (projectName, answers) => {
     path.resolve(__dirname, '../resources/core/logger.js'),
     `${projectName}/src/core/logger.js`
   );
-  switch (answers.logger) {
-    case 'console': {
-      replace.sync({
-        files: path.resolve(projectName, 'src/core/logger.js'),
-        from: '$__logger',
-        to: 'console',
-      });
-    }
 
-    case 'winston': {
-      cp.sync(
-        path.resolve(__dirname, '../resources/core/winston.config.js'),
-        `${projectName}/src/core/winston.config.js`
-      );
-      replace.sync({
-        files: path.resolve(projectName, 'src/core/logger.js'),
-        from: '$__logger',
-        to: 'require("./winston.config.js")',
-      });
-    }
-
-    default: {
-      replace.sync({
-        files: path.resolve(projectName, 'src/core/logger.js'),
-        from: '$__logger',
-        to: 'console',
-      });
-    }
-  }
+  cp.sync(
+    path.resolve(__dirname, '../resources/core/winston.config.js'),
+    `${projectName}/src/core/winston.config.js`
+  );
 };
 
 const initNpm = (projectName, answers) => {
   cmd.run(`cd ${projectName} && npm install`);
 };
 
-const questions = [
-  {
-    type: 'list',
-    name: 'logger',
-    defalt: 'console',
-    message: 'Select default logger',
-    choices: [
-      {
-        name: 'Console',
-        value: 'console',
-      },
-      {
-        name: 'Winston',
-        value: 'winston',
-      },
-    ],
-  },
-];
+const questions = [];
 
 module.exports = projectName => {
   console.log(

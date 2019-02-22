@@ -1,10 +1,10 @@
 const http = require('http');
 const config = require('config');
-const rabbitConf = require('./rabbit.config');
-const messageHandler = require('./messageHandler');
-const appConf = require('./app.config');
-const messageBroker = require('./messageBroker');
-const logger = require('./logger');
+const rabbitConf = require('./core/rabbit.core');
+const mongoConf = require('./core/mongo.core');
+const messageHandler = require('./app/messageHandler');
+const messageBroker = require('./core/messageBroker');
+const logger = require('./core/logger');
 
 const startApiServer = () =>
   new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ const startApiServer = () =>
     });
   });
 
-const start = async () => {
+(async () => {
   try {
     await mongoConf.connect(config.get('mongoUrl'), {
       logger,
@@ -24,18 +24,18 @@ const start = async () => {
       logger,
     });
     
-    await startMessageBroker(rabbitConf.connection(), config.get('amqpDefinitions'));
+    await messageBroker.init(rabbitConf.connection(), config.get('amqpDefinitions'));
+
+    messageBroker.getPublishChannel().addConsumer('queue-name', messageHandler.handleMessage)
 
     await startApiServer();
     
     logger.info(`App is listening on port ${config.get('port')}`)
   } catch (error) {
     logger.error(error)
-    process.exit(1)
+    process.kill(process.pid, 'SIGTERM')
   }
-}
-
-start();
+})();
 
 const shutdown = signal => async err => {
   logger.log(`${signal}...`);

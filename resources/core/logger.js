@@ -1,3 +1,3 @@
-const logger = $__logger;
+const logger = require('./winston.core');
 
 module.exports = logger;

@@ -2,6 +2,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-body');
 const koaLogger = require('koa-logger');
 const koaHelmet = require('koa-helmet');
+const Sentry = require('@sentry/node');
 const createError = require('http-errors');
 const cors = require('@koa/cors');
 const config = require('config');
@@ -82,8 +83,7 @@ module.exports = (router, logger = console) => {
   });
 
   app.on('error', err => {
-    if (err.status >= 500) logger.error(err.stack);
-    else logger.warn(err.stack);
+    Sentry.captureException(err);
   });
 
   return app;

@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.3",
+    "@sentry/node": "^4.6.3",
     "ajv": "^6.5.5",
     "amqplib": "^0.5.3",
     "axios": "^0.18.0",
