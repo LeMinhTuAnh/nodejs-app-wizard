@@ -2,9 +2,10 @@ const http = require('http');
 const config = require('config');
 const rabbitConf = require('./core/rabbit.core');
 const mongoConf = require('./core/mongo.core');
-const messageHandler = require('./app/messageHandler');
 const messageBroker = require('./core/messageBroker');
 const logger = require('./core/logger');
+const router = require('./app/router');
+const app = require('./core/koa')(router, logger);
 
 const startApiServer = () =>
   new Promise((resolve, reject) => {
@@ -26,7 +27,7 @@ const startApiServer = () =>
     
     await messageBroker.init(rabbitConf.connection(), config.get('amqpDefinitions'));
 
-    messageBroker.getPublishChannel().addConsumer('queue-name', messageHandler.handleMessage)
+    messageBroker.getPublishChannel().addConsumer('queue-name', async message => { logger.info(JSON.parse(message.content)) })
 
     await startApiServer();
     
