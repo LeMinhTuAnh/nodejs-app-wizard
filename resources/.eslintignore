@@ -3,3 +3,5 @@ src/submodules/
 src/old
 src/**/*.spec.js
 .vscode/
+**/*.spec.js
+package-lock.json
