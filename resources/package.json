@@ -25,7 +25,10 @@
     "ignore": [
       "package.json",
       ".vscode/*.*",
-      ".eslintrc.json"
+      ".eslintrc.json",
+      "package-lock.json",
+      "**/*.spec.js",
+      "**/*.md"
     ],
     "linters": {
       "*.{js,jsx}": [
