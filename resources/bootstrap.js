@@ -5,7 +5,7 @@ const mongoConf = require('./core/mongo.core');
 const messageBroker = require('./core/messageBroker');
 const logger = require('./core/logger');
 const router = require('./app/router');
-const app = require('./core/koa')(router, logger);
+const app = require('./core/koa.core')(router, logger);
 
 const startApiServer = () =>
   new Promise((resolve, reject) => {
